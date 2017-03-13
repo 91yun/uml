@@ -19,4 +19,3 @@ iptables -I FORWARD -i tap1 -j ACCEPT
 iptables -I FORWARD -o tap1 -j ACCEPT
 
 nohup ./vmlinux ubda=./alpine-x64 eth0=tuntap,tap1 mem=64m & disown	
-
