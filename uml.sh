@@ -36,7 +36,7 @@ fi
 
 
 if [ "$OS" == 'CentOS' ]; then
-	yum install -y tunctl uml-utilities screen
+	yum install -y tunctl uml-utilities screen net-tools
 else
 	apt-get update -y 
 	apt-get install -y uml-utilities screen
