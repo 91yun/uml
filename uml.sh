@@ -81,8 +81,8 @@ chmod +x run.sh
 cat > /etc/init.d/uml<<-EOF
 ### BEGIN INIT INFO
 # Provides:          uml
-# Required-Start:    $network $local_fs $remote_fs $syslog
-# Required-Stop:     $network $local_fs $remote_fs $syslog
+# Required-Start:    $syslog $network $local_fs $remote_fs 
+# Required-Stop:     $syslog $network $local_fs $remote_fs 
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
 # Short-Description: uml
@@ -136,7 +136,7 @@ if [ "$OS" == 'CentOS' ]; then
 	chkconfig --add uml
 	chkconfig uml on
 else
-	update-rc.d -f uml defaults
+	update-rc.d -f uml defaults 99
 fi
 # Run ShadowsocksR in the background
 /etc/init.d/uml start
