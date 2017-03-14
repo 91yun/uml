@@ -50,9 +50,9 @@ cur_dir=`pwd`
 cat > run.sh<<-EOF
 #!/bin/sh
 export HOME=/root
-tunctl -t tap1
-ifconfig tap1 10.0.0.1
-ifconfig tap1 up
+ip tuntap add tap1 mode tap 
+ip addr add 10.0.0.1/24 dev tap1 
+ip link set tap1 up 
 echo 1 > /proc/sys/net/ipv4/ip_forward
 iptables -P FORWARD ACCEPT 
 iptables -t nat -A POSTROUTING -o venet0 -j MASQUERADE
