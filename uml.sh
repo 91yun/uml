@@ -66,7 +66,7 @@ ps aux | grep "vmlinux"
 if [ $? -eq 0 ]; then
 	echo "all things done!"
 	echo "you can use command to login uml:"
-	echo "screen /dev/pts/1"
+	echo "/etc/init.d/uml screen"
 	echo "user:root password:root"
 else
 	echo "some things error"
@@ -80,12 +80,13 @@ chmod +x run.sh
 # Add run on system start up
 cat > /etc/init.d/uml<<-EOF
 ### BEGIN INIT INFO
-# Provides: uml
-# Required-Start: $network $syslog
-# Required-Stop: $network
-# Default-Start: 2 3 4 5
-# Default-Stop: 0 1 6
-# Description: Start or stop the uml
+# Provides:          uml
+# Required-Start:    $network $local_fs $remote_fs $syslog
+# Required-Stop:     $network $local_fs $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: uml
+# Description:       uml.
 ### END INIT INFO
 
 
@@ -100,7 +101,7 @@ stop(){
 	ifconfig tap1 down
 }
 
-status(){
+screen(){
 pid=\$(screen -list | grep pts | awk '{print \$1}')
 if [ ! -n "\$pid" ]; then
 	screen /dev/pts/1
@@ -116,15 +117,15 @@ case "\$1" in
 'stop')
     stop
     ;;
-'status')
-    status
+'screen')
+    screen
     ;;
 'restart')
     stop
     start
     ;;
 *)
-    echo "Usage: \$0 { start | stop | restart | status }"
+    echo "Usage: \$0 { start | stop | restart | screen }"
     ;;
 esac
 exit
