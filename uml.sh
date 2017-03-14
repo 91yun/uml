@@ -66,7 +66,7 @@ ps aux | grep "vmlinux"
 if [ $? -eq 0 ]; then
 	echo "all things done!"
 	echo "you can use command to login uml:"
-	echo "/etc/init.d/uml screen"
+	echo "/etc/init.d/uml status"
 	echo "user:root password:root"
 else
 	echo "some things error"
