@@ -60,7 +60,7 @@ iptables -I FORWARD -i tap1 -j ACCEPT
 iptables -I FORWARD -o tap1 -j ACCEPT
 iptables -t nat -A PREROUTING -i venet0 -p tcp --dport 9191 -j DNAT --to-destination 10.0.0.2
 iptables -t nat -A PREROUTING -i venet0 -p udp --dport 9191 -j DNAT --to-destination 10.0.0.2
-nohup ${cur_dir}/vmlinux ubda=${cur_dir}/alpine-x64 eth0=tuntap,tap1 mem=64m & disown
+nohup ${cur_dir}/vmlinux ubda=${cur_dir}/alpine-x64 eth0=tuntap,tap1 mem=64m &
 sleep 1
 ps aux | grep "vmlinux"
 if [ $? -eq 0 ]; then
@@ -101,7 +101,7 @@ stop(){
 	ifconfig tap1 down
 }
 
-screen(){
+status(){
 pid=\$(screen -list | grep pts | awk '{print \$1}')
 if [ ! -n "\$pid" ]; then
 	screen /dev/pts/1
@@ -117,15 +117,15 @@ case "\$1" in
 'stop')
     stop
     ;;
-'screen')
-    screen
+'status')
+    status
     ;;
 'restart')
     stop
     start
     ;;
 *)
-    echo "Usage: \$0 { start | stop | restart | screen }"
+    echo "Usage: \$0 { start | stop | restart | status }"
     ;;
 esac
 exit
