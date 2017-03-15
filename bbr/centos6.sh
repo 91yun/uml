@@ -32,7 +32,7 @@ iptables -I FORWARD -i tap1 -j ACCEPT
 iptables -I FORWARD -o tap1 -j ACCEPT
 iptables -t nat -A PREROUTING -i venet0 -p tcp --dport 9191 -j DNAT --to-destination 10.0.0.2
 iptables -t nat -A PREROUTING -i venet0 -p udp --dport 9191 -j DNAT --to-destination 10.0.0.2
-nohup ${cur_dir}/vmlinux ubda=${cur_dir}/alpine-x64 eth0=tuntap,tap1 mem=64m &
+screen -dmS uml ${cur_dir}/vmlinux ubda=${cur_dir}/alpine-x64 eth0=tuntap,tap1 mem=64m
 sleep 1
 ps aux | grep "vmlinux"
 if [ $? -eq 0 ]; then
@@ -51,19 +51,6 @@ chmod +x run.sh
 
 # Add run on system start up
 cat > /etc/init.d/uml<<-EOF
-### BEGIN INIT INFO
-# Provides:          uml
-# Required-Start:    \$syslog \$network \$local_fs \$remote_fs 
-# Required-Stop:     \$syslog \$network \$local_fs \$remote_fs 
-# Default-Start:     2 3 4 5
-# Default-Stop:      0 1 6
-# Short-Description: uml
-# Description:       uml.
-### END INIT INFO
-
-
-name=uml
-
 start(){
 	bash ${cur_dir}/run.sh
 }
