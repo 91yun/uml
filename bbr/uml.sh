@@ -44,23 +44,18 @@ function getversion(){
         grep -oE  "[0-9.]+" /etc/issue
     fi    
 }
-
+ver=""
 centosversion() {
     if [ "${release}" == "centos" ]; then
-        local code=$1
         local version="$(getversion)"
         local main_ver=${version%%.*}
-        if [ "$main_ver" == "$code" ]; then
-            return 0
-        else
-            return 1
-        fi
+		ver=$main_ver
     else
         return 1
     fi
 }
-
-if [[ "$release" = "centos" && "centosversion" = "6" ]]; then
+centosversion
+if [[ "$release" = "centos" && "$ver" = "6" ]]; then
 	wget -N --no-check-certificate https://raw.githubusercontent.com/91yun/uml/master/bbr/centos6.sh && bash centos6.sh
 fi	
 
