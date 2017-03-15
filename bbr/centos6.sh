@@ -22,50 +22,18 @@ cur_dir=`pwd`
 cat > run.sh<<-EOF
 #!/bin/sh
 export HOME=/root
-tunctl -t tap1
-ifconfig tap1 10.0.0.1
-ifconfig tap1 up
-echo 1 > /proc/sys/net/ipv4/ip_forward
-iptables -P FORWARD ACCEPT 
-iptables -t nat -A POSTROUTING -o venet0 -j MASQUERADE
-iptables -I FORWARD -i tap1 -j ACCEPT
-iptables -I FORWARD -o tap1 -j ACCEPT
-iptables -t nat -A PREROUTING -i venet0 -p tcp --dport 9191 -j DNAT --to-destination 10.0.0.2
-iptables -t nat -A PREROUTING -i venet0 -p udp --dport 9191 -j DNAT --to-destination 10.0.0.2
-screen -dmS uml ${cur_dir}/vmlinux ubda=${cur_dir}/alpine-x64 eth0=tuntap,tap1 mem=64m
-sleep 1
-ps aux | grep "vmlinux"
-if [ $? -eq 0 ]; then
-	echo "all things done!"
-	echo "you can use command to login uml:"
-	echo "/etc/init.d/uml status"
-	echo "user:root password:root"
-else
-	echo "some things error"
-fi	
-
-EOF
-chmod +x run.sh
-
-
-
-# Add run on system start up
-cat > /etc/init.d/uml<<-EOF
-### BEGIN INIT INFO
-# Provides:          uml
-# Required-Start:    \$syslog \$network \$local_fs \$remote_fs 
-# Required-Stop:     \$syslog \$network \$local_fs \$remote_fs 
-# Default-Start:     2 3 4 5
-# Default-Stop:      0 1 6
-# Short-Description: uml
-# Description:       uml.
-### END INIT INFO
-
-
-name=uml
-
 start(){
-	bash ${cur_dir}/run.sh
+	tunctl -t tap1
+	ifconfig tap1 10.0.0.1
+	ifconfig tap1 up
+	echo 1 > /proc/sys/net/ipv4/ip_forward
+	iptables -P FORWARD ACCEPT 
+	iptables -t nat -A POSTROUTING -o venet0 -j MASQUERADE
+	iptables -I FORWARD -i tap1 -j ACCEPT
+	iptables -I FORWARD -o tap1 -j ACCEPT
+	iptables -t nat -A PREROUTING -i venet0 -p tcp --dport 9191 -j DNAT --to-destination 10.0.0.2
+	iptables -t nat -A PREROUTING -i venet0 -p udp --dport 9191 -j DNAT --to-destination 10.0.0.2
+	screen -dmS uml ${cur_dir}/vmlinux ubda=${cur_dir}/alpine-x64 eth0=tuntap,tap1 mem=64m
 }
 
 stop(){
@@ -78,8 +46,9 @@ status(){
 	screen -r \$(screen -list | grep uml | awk 'NR==1{print \$1}')
 	
 }
-
-case "\$1" in
+action=$1
+[ -z \$1 ] && action=install
+case "\$action" in
 'start')
     start
     ;;
@@ -99,11 +68,8 @@ case "\$1" in
 esac
 exit
 EOF
+chmod +x run.sh
 
 
-chmod +x /etc/init.d/uml
-chkconfig --add uml
-chkconfig uml on
-
-/etc/init.d/uml start
+echo "bash ${cur_dir}/run.sh start" >> /etc/rc.local
 
