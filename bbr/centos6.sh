@@ -46,7 +46,7 @@ status(){
 	screen -r \$(screen -list | grep uml | awk 'NR==1{print \$1}')
 	
 }
-action=$1
+action=\$1
 [ -z \$1 ] && action=install
 case "\$action" in
 'start')
