@@ -74,12 +74,9 @@ stop(){
 }
 
 status(){
-pid=\$(screen -list | grep pts | awk '{print \$1}')
-if [ "\$pid" == "" ]; then
-	screen /dev/pts/1
-else
-	screen -r \$(screen -list | grep pts | awk 'NR==1{print \$1}')
-fi	
+
+	screen -r \$(screen -list | grep uml | awk 'NR==1{print \$1}')
+	
 }
 
 case "\$1" in
