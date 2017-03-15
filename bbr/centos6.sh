@@ -51,6 +51,7 @@ chmod +x run.sh
 
 # Add run on system start up
 cat > /etc/init.d/uml<<-EOF
+name=uml
 start(){
 	bash ${cur_dir}/run.sh
 }
