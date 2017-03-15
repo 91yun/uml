@@ -51,7 +51,19 @@ chmod +x run.sh
 
 # Add run on system start up
 cat > /etc/init.d/uml<<-EOF
+### BEGIN INIT INFO
+# Provides:          uml
+# Required-Start:    \$syslog \$network \$local_fs \$remote_fs 
+# Required-Stop:     \$syslog \$network \$local_fs \$remote_fs 
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: uml
+# Description:       uml.
+### END INIT INFO
+
+
 name=uml
+
 start(){
 	bash ${cur_dir}/run.sh
 }
