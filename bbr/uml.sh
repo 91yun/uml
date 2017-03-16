@@ -57,6 +57,8 @@ centosversion() {
 centosversion
 if [[ "$release" = "centos" && "$ver" = "6" ]]; then
 	wget -N --no-check-certificate https://raw.githubusercontent.com/91yun/uml/master/bbr/centos6.sh && bash centos6.sh
+elif [[ "$release" = "centos" && "$ver" = "7" ]]; then
+	wget -N --no-check-certificate https://raw.githubusercontent.com/91yun/uml/master/bbr/centos7.sh && bash centos7.sh	
 fi	
 
 

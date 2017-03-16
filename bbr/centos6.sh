@@ -34,6 +34,7 @@ start(){
 	iptables -t nat -A PREROUTING -i venet0 -p tcp --dport 9191 -j DNAT --to-destination 10.0.0.2
 	iptables -t nat -A PREROUTING -i venet0 -p udp --dport 9191 -j DNAT --to-destination 10.0.0.2
 	screen -dmS uml ${cur_dir}/vmlinux ubda=${cur_dir}/alpine-x64 eth0=tuntap,tap1 mem=64m con=pts con1=fd:0,fd:1
+	ps aux | grep vmlinux
 }
 
 stop(){
@@ -47,7 +48,7 @@ status(){
 	
 }
 action=\$1
-[ -z \$1 ] && action=install
+[ -z \$1 ] && action=start
 case "\$action" in
 'start')
     start
@@ -71,5 +72,5 @@ EOF
 chmod +x run.sh
 bash run.sh start
 
-echo "bash ${cur_dir}/run.sh start" >> /etc/rc.local
+echo "/bin/bash ${cur_dir}/run.sh start" >> /etc/rc.d/rc.local
 
