@@ -69,7 +69,7 @@ esac
 exit
 EOF
 chmod +x run.sh
-
+bash run.sh
 
 echo "bash ${cur_dir}/run.sh start" >> /etc/rc.local
 
