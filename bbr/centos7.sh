@@ -74,7 +74,6 @@ bash run.sh start
 
 echo "/bin/bash ${cur_dir}/run.sh start" >> /etc/rc.d/rc.local
 chmod +x /etc/rc.d/rc.local
-chmod +x /etc/rc.d/rc.local
 umlstatus=$(ps aux | grep vmlinux)
 if [ "$umlstatus" == "" ]; then
 	echo "some thing error!"
