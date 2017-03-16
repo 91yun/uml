@@ -33,7 +33,7 @@ start(){
 	iptables -I FORWARD -o tap1 -j ACCEPT
 	iptables -t nat -A PREROUTING -i venet0 -p tcp --dport 9191 -j DNAT --to-destination 10.0.0.2
 	iptables -t nat -A PREROUTING -i venet0 -p udp --dport 9191 -j DNAT --to-destination 10.0.0.2
-	screen -dmS uml ${cur_dir}/vmlinux ubda=${cur_dir}/debian64_fs eth0=tuntap,tap1 mem=64m con=pts con1=fd:0,fd:1
+	screen -dmS uml ${cur_dir}/vmlinux ubda=${cur_dir}/alpine-x64 eth0=tuntap,tap1 mem=64m con=pts con1=fd:0,fd:1
 }
 
 stop(){
@@ -69,7 +69,7 @@ esac
 exit
 EOF
 chmod +x run.sh
-bash run.sh
+bash run.sh start
 
 echo "bash ${cur_dir}/run.sh start" >> /etc/rc.local
 
