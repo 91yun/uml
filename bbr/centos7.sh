@@ -23,9 +23,9 @@ cat > run.sh<<-EOF
 #!/bin/sh
 export HOME=/root
 start(){
-	ip tuntap add tap0 mode tap 
+	ip tuntap add tap1 mode tap 
 	ip addr add 10.0.0.1/24 dev tap0 
-	ip link set tap0 up 
+	ip link set tap1 up 
 	echo 1 > /proc/sys/net/ipv4/ip_forward
 	iptables -P FORWARD ACCEPT 
 	iptables -t nat -A POSTROUTING -o venet0 -j MASQUERADE
