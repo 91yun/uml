@@ -69,10 +69,17 @@ case "\$action" in
 esac
 exit
 EOF
+
+#创建和uml的共享目录
+mkdir -p /root/umlshare
+
+
 chmod +x run.sh
 bash run.sh start
 
 echo "/bin/bash ${cur_dir}/run.sh start" >> /etc/rc.d/rc.local
+sed -i "s/exit 0/ /ig" /etc/rc.local
+
 chmod +x /etc/rc.d/rc.local
 umlstatus=$(ps aux | grep vmlinux)
 if [ "$umlstatus" == "" ]; then
