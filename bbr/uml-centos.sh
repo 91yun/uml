@@ -63,10 +63,4 @@ elif [[ "$release" = "ubuntu" ]]; then
 	wget -N --no-check-certificate https://raw.githubusercontent.com/91yun/uml/master/bbr/ubuntu-centos.sh && bash ubuntu.sh
 elif [[ "$release" = "debian" ]]; then
 	wget -N --no-check-certificate https://raw.githubusercontent.com/91yun/uml/master/bbr/ubuntu-centos.sh && bash ubuntu.sh	
-fi	
-
-
-
-
-
-
+fi

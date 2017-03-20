@@ -86,5 +86,4 @@ if [ "$umlstatus" == "" ]; then
 	echo "some thing error!"
 else
 	echo "uml install success!"
-fi	
-
+fi
