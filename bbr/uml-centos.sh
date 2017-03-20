@@ -56,11 +56,11 @@ centosversion() {
 }
 centosversion
 if [[ "$release" = "centos" && "$ver" = "6" ]]; then
-	wget -N --no-check-certificate https://raw.githubusercontent.com/91yun/uml/master/bbr/centos6-centos.sh && bash centos6.sh
+	wget -N --no-check-certificate https://raw.githubusercontent.com/91yun/uml/master/bbr/centos6-centos.sh && bash centos6-centos.sh
 elif [[ "$release" = "centos" && "$ver" = "7" ]]; then
-	wget -N --no-check-certificate https://raw.githubusercontent.com/91yun/uml/master/bbr/centos7-centos.sh && bash centos7.sh
+	wget -N --no-check-certificate https://raw.githubusercontent.com/91yun/uml/master/bbr/centos7-centos.sh && bash centos7-centos.sh
 elif [[ "$release" = "ubuntu" ]]; then
-	wget -N --no-check-certificate https://raw.githubusercontent.com/91yun/uml/master/bbr/ubuntu-centos.sh && bash ubuntu.sh
+	wget -N --no-check-certificate https://raw.githubusercontent.com/91yun/uml/master/bbr/ubuntu-centos.sh && bash ubuntu-centos.sh
 elif [[ "$release" = "debian" ]]; then
-	wget -N --no-check-certificate https://raw.githubusercontent.com/91yun/uml/master/bbr/ubuntu-centos.sh && bash ubuntu.sh	
+	wget -N --no-check-certificate https://raw.githubusercontent.com/91yun/uml/master/bbr/ubuntu-centos.sh && bash ubuntu-centos.sh	
 fi
