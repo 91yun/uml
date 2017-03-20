@@ -33,7 +33,7 @@ start(){
 	iptables -I FORWARD -o tap1 -j ACCEPT
 	iptables -t nat -A PREROUTING -i venet0 -p tcp --dport 9191 -j DNAT --to-destination 10.0.0.2
 	iptables -t nat -A PREROUTING -i venet0 -p udp --dport 9191 -j DNAT --to-destination 10.0.0.2
-	screen -dmS uml ${cur_dir}/vmlinux ubda=${cur_dir}/CentOS_fs eth0=tuntap,tap1 mem=256m
+	screen -dmS uml ${cur_dir}/vmlinux ubda=${cur_dir}/CentOS64_fs eth0=tuntap,tap1 mem=256m
 	ps aux | grep vmlinux
 }
 
