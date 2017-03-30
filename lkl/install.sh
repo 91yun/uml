@@ -48,7 +48,7 @@ centosversion() {
         local main_ver=${version%%.*}
 		ver=$main_ver
     else
-        return 1
+        ver="$(getversion)"
     fi
 }
 centosversion
