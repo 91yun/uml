@@ -2,7 +2,7 @@
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 #=================================================================#
-#   System Required:  CentOS ubuntu debian                                    #
+#   System Required:  CentOS ubuntu Debian                                    #
 #   Description: One click Install lkl                #
 #   Author: 91yun <https://twitter.com/91yun>                     #
 #   Thanks: @allient neko                               #
@@ -15,24 +15,19 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 
-if [ -f /etc/redhat-release ]; then
-    release="centos"
-elif cat /etc/issue | grep -Eqi "debian"; then
-    release="debian"
-elif cat /etc/issue | grep -Eqi "ubuntu"; then
-    release="ubuntu"
-elif cat /etc/issue | grep -Eqi "centos|red hat|redhat"; then
-    release="centos"
-elif cat /proc/version | grep -Eqi "debian"; then
-    release="debian"
-elif cat /proc/version | grep -Eqi "ubuntu"; then
-    release="ubuntu"
-elif cat /proc/version | grep -Eqi "centos|red hat|redhat"; then
-    release="centos"
-else
-    echo "Not support OS, Please reinstall OS and retry!"
-    exit 1
-fi
+Get_Dist_Name()
+{
+    if grep -Eqi "CentOS" /etc/issue || grep -Eq "CentOS" /etc/*-release; then
+        release='CentOS'
+    elif grep -Eqi "Debian" /etc/issue || grep -Eq "Debian" /etc/*-release; then
+        release='Debian'
+    elif grep -Eqi "Ubuntu" /etc/issue || grep -Eq "Ubuntu" /etc/*-release; then
+        release='Ubuntu'
+	else
+        release='unknow'
+    fi
+    
+}
 
 function getversion(){
     if [[ -s /etc/redhat-release ]];then
@@ -42,8 +37,8 @@ function getversion(){
     fi    
 }
 ver=""
-centosversion() {
-    if [ "${release}" == "centos" ]; then
+CentOSversion() {
+    if [ "${release}" == "CentOS" ]; then
         local version="$(getversion)"
         local main_ver=${version%%.*}
 		ver=$main_ver
@@ -51,12 +46,12 @@ centosversion() {
         ver="$(getversion)"
     fi
 }
-centosversion
+CentOSversion
 
-if [ "${release}" == "centos" ]; then
+if [ "${release}" == "CentOS" ]; then
 	yum install -y haproxy
-elif [ "${release}" == "debian" && "$ver" == "7" ]; then
-	echo "deb http://ftp.debian.org/debian wheezy-backports main" >> /etc/apt/sources.list
+elif [ "${release}" == "Debian" && "$ver" == "7" ]; then
+	echo "deb http://ftp.Debian.org/Debian wheezy-backports main" >> /etc/apt/sources.list
 	apt-get update
 	apt-get install -y haproxy
 else
@@ -93,7 +88,7 @@ LD_PRELOAD=/root/lkl/liblkl-hijack.so LKL_HIJACK_NET_QDISC="root|fq" LKL_HIJACK_
 EOF
 
 
-if [[ "$release" = "centos" && "$ver" = "6" ]]; then
+if [[ "$release" = "CentOS" && "$ver" = "6" ]]; then
 yum install -y tunctl
 cat > /root/lkl/run.sh<<-EOF
 tunctl -t lkl-tap
@@ -140,7 +135,7 @@ chmod +x lkl.sh
 chmod +x run.sh
 
 #写入自动启动
-if [[ "$release" = "centos" && "$ver" = "7" ]]; then
+if [[ "$release" = "CentOS" && "$ver" = "7" ]]; then
 	echo "/root/lkl/run.sh" >> /etc/rc.d/rc.local
 	chmod +x /etc/rc.d/rc.local
 else
