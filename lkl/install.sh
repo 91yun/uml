@@ -48,10 +48,17 @@ CentOSversion() {
 }
 CentOSversion
 
+if [[ "$release" = "centos" && "$ver" = "6" ]]; then
+	echo "LKL is not supported on centos6"
+	exit 1
+fi	
+
+
+
 if [ "${release}" == "CentOS" ]; then
 	yum install -y haproxy
 elif [[ "${release}" == "Debian" && "$ver" == "7" ]]; then
-	echo "deb http://ftp.Debian.org/Debian wheezy-backports main" >> /etc/apt/sources.list
+	echo "deb http://ftp.debian.org/debian wheezy-backports main" >> /etc/apt/sources.list
 	apt-get update
 	apt-get install -y haproxy
 else
