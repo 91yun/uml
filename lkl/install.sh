@@ -50,7 +50,7 @@ CentOSversion
 
 if [ "${release}" == "CentOS" ]; then
 	yum install -y haproxy
-elif [ "${release}" == "Debian" && "$ver" == "7" ]; then
+elif [[ "${release}" == "Debian" && "$ver" == "7" ]]; then
 	echo "deb http://ftp.Debian.org/Debian wheezy-backports main" >> /etc/apt/sources.list
 	apt-get update
 	apt-get install -y haproxy
