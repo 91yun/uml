@@ -88,28 +88,7 @@ LD_PRELOAD=/root/lkl/liblkl-hijack.so LKL_HIJACK_NET_QDISC="root|fq" LKL_HIJACK_
 EOF
 
 
-if [[ "$release" = "CentOS" && "$ver" = "6" ]]; then
-yum install -y tunctl
-cat > /root/lkl/run.sh<<-EOF
-tunctl -t lkl-tap
-ifconfig lkl-tap 10.0.0.1
-ifconfig lkl-tap up
-sysctl -w net.ipv4.ip_forward=1
-iptables -P FORWARD ACCEPT 
-iptables -t nat -A POSTROUTING -o venet0 -j MASQUERADE
-iptables -t nat -A PREROUTING -i venet0 -p tcp --dport 9000:9999 -j DNAT --to-destination 10.0.0.2
 
-nohup /root/lkl/lkl.sh > /dev/null 2>&1 &
-
-p=\`ping 10.0.0.2 -c 3 | grep ttl\`
-if [ $? -ne 0 ]; then
-	echo "success "\$(date '+%Y-%m-%d %H:%M:%S') > /root/lkl/log.log
-else
-	echo "fail "\$(date '+%Y-%m-%d %H:%M:%S') > /root/lkl/log.log
-fi
-
-EOF
-else
 cat > /root/lkl/run.sh<<-EOF
 ip tuntap add lkl-tap mode tap
 ip addr add 10.0.0.1/24 dev lkl-tap
@@ -129,7 +108,7 @@ else
 fi
 
 EOF
-fi
+
 
 chmod +x lkl.sh
 chmod +x run.sh
