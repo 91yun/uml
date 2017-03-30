@@ -28,7 +28,7 @@ Get_Dist_Name()
     fi
     
 }
-
+Get_Dist_Name
 function getversion(){
     if [[ -s /etc/redhat-release ]];then
         grep -oE  "[0-9.]+" /etc/redhat-release
