@@ -67,6 +67,7 @@ fi
 iddver=`ldd --version | grep ldd | awk '{print $NF}'`
 dver=$(echo "$iddver < 2.14" | bc)
 if [ $dver -eq 1 ]; then
+	ldd --version
 	echo "idd的版本低于2.14，系统不支持。请尝试Centos7，Debian8，Ubuntu16"
 	exit 1
 fi
