@@ -47,11 +47,36 @@ CentOSversion() {
     fi
 }
 CentOSversion
+Get_OS_Bit()
+{
+    if [[ `getconf WORD_BIT` = '32' && `getconf LONG_BIT` = '64' ]] ; then
+        bit='x64'
+    else
+        bit='x32'
+    fi
+}
+Get_OS_Bit
 
-if [[ "$release" = "centos" && "$ver" = "6" ]]; then
-	echo "LKL is not supported on centos6"
+if [ "${release}" == "CentOS" ]; then
+	yum install -y bc
+else
+	apt-get update
+	apt-get install -y bc
+fi
+
+iddver=`ldd --version | grep ldd | awk '{print $NF}'`
+dver=$(echo "$iddver < 2.14" | bc)
+if [ $dver -eq 1 ]; then
+	echo "idd的版本低于2.14，系统不支持。请尝试Centos7，Debian8，Ubuntu16"
+	exit 1
+fi
+
+if [ "$bit" -ne "x64" ]; then
+	echo "脚本目前只支持64bit系统"
 	exit 1
 fi	
+
+
 
 
 
